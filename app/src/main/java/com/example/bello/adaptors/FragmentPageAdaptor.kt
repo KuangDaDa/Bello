@@ -24,7 +24,7 @@ FragmentStateAdapter(fragmentManager,lifecycle) {
 //            Log.d("Bundle","$mUsername si working.")
 //            val creator =
 //            creator.arguments=bundle
-            return CreatorFragment()
+            CreatorFragment()
         }else{
             CollabratedFragment()
         }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/add_member"
+        android:icon="@drawable/baseline_add_circle_24"
+        android:title="Add members"
+        app:showAsAction="always" />
+    <item android:id="@+id/delete_board"
+        android:icon="@drawable/baseline_delete_24"
+        android:title="Delete Board"
+        app:showAsAction="always" />
+</menu>

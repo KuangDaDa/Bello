@@ -3,14 +3,11 @@ package com.example.bello.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.bello.R
 import com.example.bello.activities.CreateBoardActivity
 import com.example.bello.activities.TaskListActivity
@@ -18,6 +15,8 @@ import com.example.bello.adaptors.BoardItemsAdaptor
 import com.example.bello.databinding.FragmentCreatorBinding
 import com.example.bello.firebase.FirestoreClass
 import com.example.bello.model.Board
+import com.example.bello.model.Task
+import com.example.bello.utils.Constants
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,8 +41,7 @@ class CreatorFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        Log.d("USERNAME","$param1............")
-        FirestoreClass().getBoardList(this)
+//        FirestoreClass().getBoardList(this)
     }
 
 
@@ -60,7 +58,9 @@ class CreatorFragment : Fragment() {
 
             boardAdapter?.setOnClickListener(object:BoardItemsAdaptor.OnClickListener{
                 override fun onClick(position: Int, model: Board) {
-                    startActivity(Intent(activity,TaskListActivity::class.java))
+                    val intent = Intent(activity,TaskListActivity::class.java)
+                    intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
+                    startActivity(intent)
                 }
             })
         }else{
@@ -79,6 +79,7 @@ class CreatorFragment : Fragment() {
 //        FirestoreClass().getBoardList(this)
         val view = binding.root
 
+        FirestoreClass().getBoardList(this)
 
         binding.fabCreateBoard.setOnClickListener{
             val intent  = Intent(requireContext(),CreateBoardActivity::class.java)

@@ -17,9 +17,12 @@ object Constants{
     const val MOBILE:String = "mobile"
 
     const val DOCUMENT_ID:String="documentId"
+    const val ASSIGNED_TO:String="assignedTo"
 
     const val READ_STORAGE_PERMISSION_CODE=1
     const val PICK_IMAGE_REQUEST_CODE=2
+
+    const val TASK_LIST = "task_list"
 
 
     fun showImageChooser(activity:Activity){

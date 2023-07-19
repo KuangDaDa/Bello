@@ -32,4 +32,8 @@
 
     <!--    Task-->
     <string name="task_title">Tasks</string>
+    <string name="task_create">Create new task</string>
+    <string name="no_task_message">No task available!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

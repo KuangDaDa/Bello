@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var adaptor: FragmentPageAdaptor
-    private var mUsername:String = FirestoreClass().getCurrentUser()
+//    private var mUsername:String = FirestoreClass().getCurrentUser()
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +65,6 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
 //        val mUsername = Firebase.auth.currentUser
 //        Log.d("Username","$mUsername is here.")
 
-        Log.d("mUsername","$mUsername si here.")
 
         adaptor = FragmentPageAdaptor(supportFragmentManager,lifecycle)
         tabLayout.addTab(tabLayout.newTab().setText("Creator"))
