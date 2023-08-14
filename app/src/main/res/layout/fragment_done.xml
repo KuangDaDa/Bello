@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DoingFragment">
+    tools:context=".fragments.DoneFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle_task_doing_list"
+        android:id="@+id/recycle_task_done_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
@@ -15,12 +14,13 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/no_task_doing_message"
+        android:id="@+id/no_task_done_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="18sp"
-        android:text="@string/no_task_doing_message">
+        android:text="@string/no_task_done_message">
     </TextView>
+
 
 </FrameLayout>

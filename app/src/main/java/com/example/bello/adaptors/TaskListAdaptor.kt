@@ -5,22 +5,25 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.bello.fragments.DoingFragment
+import com.example.bello.fragments.DoneFragment
 import com.example.bello.fragments.ToDoFragment
+import com.example.bello.model.User
 
-class TaskListAdaptor(fragmentManager: FragmentManager, lifecycle: Lifecycle,boardDocumentID:String):
+class TaskListAdaptor(fragmentManager: FragmentManager, lifecycle: Lifecycle,
+                      var boardDocumentID: String, var mBoardCreatedBy: String
+):
     FragmentStateAdapter(fragmentManager,lifecycle) {
-    var boardDocumentID = boardDocumentID
     override fun getItemCount(): Int {
         return 3
     }
 
     override fun createFragment(position: Int): Fragment {
         if(position==0){
-            return ToDoFragment.newInstance(boardDocumentID)
+            return ToDoFragment.newInstance(boardDocumentID, mBoardCreatedBy)
         }else if(position == 1){
-            return DoingFragment()
+            return DoingFragment.newInstance(boardDocumentID, mBoardCreatedBy)
         }else{
-            return DoingFragment()
+            return DoneFragment.newInstance(boardDocumentID, mBoardCreatedBy)
         }
     }
 

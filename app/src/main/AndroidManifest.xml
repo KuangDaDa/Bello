@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Bello"
         tools:targetApi="31">
         <activity
+            android:name=".activities.UpdateTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.InvitedTaskList"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MemeberActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.TaskActivity"
             android:exported="false" />
         <activity

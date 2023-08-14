@@ -1,5 +1,6 @@
 package com.example.bello.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -60,7 +61,8 @@ class CreatorFragment : Fragment() {
                 override fun onClick(position: Int, model: Board) {
                     val intent = Intent(activity,TaskListActivity::class.java)
                     intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
-                    startActivity(intent)
+                    intent.putExtra(Constants.CREATED_BY, model.createdBy)
+                    startActivityForResult(intent, TASK_LIST_REQUEST_CODE)
                 }
             })
         }else{
@@ -88,9 +90,11 @@ class CreatorFragment : Fragment() {
         return view
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK && requestCode == CREATED_BOARD_REQUEST){
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == CREATED_BOARD_REQUEST || requestCode == TASK_LIST_REQUEST_CODE)
             FirestoreClass().getBoardList(this)
         }
     }
@@ -112,6 +116,7 @@ class CreatorFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
 
         const val CREATED_BOARD_REQUEST:Int = 1
+        const val TASK_LIST_REQUEST_CODE:Int = 2
         @JvmStatic
         fun newInstance() =
             CreatorFragment().apply {

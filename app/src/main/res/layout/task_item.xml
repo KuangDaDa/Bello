@@ -8,7 +8,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="0dp"
-        android:layout_height="90dp"
+        android:layout_height="100dp"
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:textSize="@dimen/font_lg"
+            android:textSize="@dimen/font_md"
             android:textStyle="bold"
             android:text="hello world" />
 
@@ -32,14 +32,17 @@
             android:layout_marginTop="56dp"
             android:text="hello world" />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
+        <TextView
+            android:id="@+id/task_priority_status"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="end"
-            android:text="High"
-            android:layout_marginTop="20dp">
-        </com.google.android.material.button.MaterialButton>
+            android:drawableStart="@drawable/task_priority_circle"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            />
+
+
 
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

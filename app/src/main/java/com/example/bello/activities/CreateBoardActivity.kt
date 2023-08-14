@@ -5,11 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -22,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.io.IOException
+import java.util.Calendar
 import java.util.zip.Inflater
 
 class CreateBoardActivity : AppCompatActivity() {
@@ -32,6 +35,7 @@ class CreateBoardActivity : AppCompatActivity() {
     // need to solve
     private var mUsername:String=FirestoreClass().getCurrentUserId()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding_board = ActivityCreateBoardBinding.inflate(layoutInflater)
@@ -62,20 +66,24 @@ class CreateBoardActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun createBoard(){
         val assignedUsersArrayList:ArrayList<String> = ArrayList()
         assignedUsersArrayList.add(FirestoreClass().getCurrentUserId())
 
+        val calendar = Calendar.getInstance().time.toInstant().toEpochMilli()
 
         var board = Board(
             binding_board.createBoardName.text.toString(),
             mSelectedBoardImageURL,
             mUsername,
-            assignedUsersArrayList
+            calendar,
+            assignedUsersArrayList,
         )
         FirestoreClass().createBoard(this,board)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun uploadBardImage(){
         val sRef: StorageReference? = Firebase.storage
             .reference.child("BOARD_IMAGE"+System.currentTimeMillis()

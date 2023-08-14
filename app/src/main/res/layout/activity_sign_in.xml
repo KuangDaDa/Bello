@@ -13,6 +13,7 @@
         android:layout_marginTop="132dp"
         android:text="@string/signin"
         android:textSize="@dimen/slogan_font_size"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,14 +21,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_layout"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:paddingStart="48dp"
         android:paddingEnd="48dp"
+        app:boxBackgroundMode="outline"
         app:helperText="@string/required"
         app:helperTextTextColor="@color/red"
-        app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,10 +45,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_layout"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:paddingStart="48dp"
+        android:paddingStart="46dp"
         android:paddingEnd="48dp"
         app:boxBackgroundMode="outline"
         app:helperText="@string/required"

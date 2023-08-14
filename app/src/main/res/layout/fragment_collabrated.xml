@@ -19,5 +19,21 @@
 <!--        android:contentDescription="add"-->
 <!--        android:layout_margin="16dp" />-->
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/assigned_recycle_board_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/assigend_no_board_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/assgiend_no_board_message"
+        android:textSize="18sp"
+        android:gravity="center"
+        />
 
 </FrameLayout>

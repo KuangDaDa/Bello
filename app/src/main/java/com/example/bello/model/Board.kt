@@ -7,6 +7,7 @@ data class Board(
     val name:String="",
     val image:String="",
     val createdBy:String="",
+    var createdDate:Long = 0,
     val assignedTo:ArrayList<String> = ArrayList(),
     var documentId:String="",
     var taskList: ArrayList<Task> = ArrayList()
@@ -15,6 +16,7 @@ data class Board(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readLong(),
         parcel.createStringArrayList()!!,
         parcel.readString()!!,
         parcel.createTypedArrayList(Task.CREATOR)!!
@@ -24,6 +26,7 @@ data class Board(
         parcel.writeString(name)
         parcel.writeString(image)
         parcel.writeString(createdBy)
+        parcel.writeLong(createdDate)
         parcel.writeStringList(assignedTo)
         parcel.writeString(documentId)
         parcel.writeTypedList(taskList)

@@ -13,7 +13,7 @@ import com.example.bello.R
 import com.example.bello.activities.TaskActivity
 import com.example.bello.adaptors.TaskItemAdaptor
 import com.example.bello.databinding.FragmentDoingBinding
-import com.example.bello.databinding.FragmentToDoBinding
+import com.example.bello.databinding.FragmentDoneBinding
 import com.example.bello.firebase.FirestoreClass
 import com.example.bello.model.Task
 import com.example.bello.utils.Constants
@@ -25,18 +25,16 @@ private const val ARG_PARAM2 = "createdBy"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [DoingFragment.newInstance] factory method to
+ * Use the [DoneFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DoingFragment : Fragment() {
+class DoneFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var tcreatedBy:String?=null
-    private var _binding: FragmentDoingBinding? = null
+    private var _binding: FragmentDoneBinding? = null
     lateinit var boardID:String
     lateinit var mCreatedBy:String
-
-//    private var mBoardAssigned:ArrayList<String> = ArrayList()
 
     private val binding get() =_binding!!
 
@@ -47,13 +45,10 @@ class DoingFragment : Fragment() {
             tcreatedBy = it.getString(ARG_PARAM2)
         }
 
-        Log.d("DDDD","$param1")
         boardID = param1!!
         mCreatedBy = tcreatedBy!!
 
         Log.d("Board","${param1} is in Doing Board")
-
-//        FirestoreClass().getAssignedMemberList(this, boardID)
 
         Log.d("III","I am after getAssignedMemberList")
 
@@ -65,16 +60,15 @@ class DoingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_doing, container, false)
-        _binding = FragmentDoingBinding.inflate(inflater,container,false)
+        _binding = FragmentDoneBinding.inflate(inflater,container,false)
         val view = binding.root
         FirestoreClass().getTaskList(this,boardID)
         return view
     }
 
     fun PopulateTaskList(taskList:ArrayList<Task>){
-        val noTaskMessage = binding.noTaskDoingMessage
-        val recycleTaskList = binding.recycleTaskDoingList
+        val noTaskMessage = binding.noTaskDoneMessage
+        val recycleTaskList = binding.recycleTaskDoneList
         if(taskList.size > 0){
             noTaskMessage.visibility=View.GONE
             recycleTaskList.visibility = View.VISIBLE
@@ -89,9 +83,9 @@ class DoingFragment : Fragment() {
                     val intent = Intent(activity, TaskActivity::class.java)
                     intent.putExtra(Constants.DOCUMENT_ID,boardID)
                     intent.putExtra("task_created",model.createdDate)
-                    intent.putExtra(Constants.STATUS_FRAGMENT,"doing")
+                    intent.putExtra(Constants.STATUS_FRAGMENT,"done")
                     intent.putExtra(Constants.CREATED_BY,model.createdBy)
-                    startActivityForResult(intent, TASK_STATUS_CODE)
+                    startActivityForResult(intent,TASK_STATUS_DONE_CODE)
                 }
 
             })
@@ -105,11 +99,13 @@ class DoingFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("DAAA","$resultCode szzzeex")
         if(resultCode == Activity.RESULT_OK){
-            if(requestCode == TASK_STATUS_CODE){
+            if(requestCode == TASK_STATUS_DONE_CODE){
+
                 FirestoreClass().getTaskList(this,boardID)
             }
         }
     }
+
 
     companion object {
         /**
@@ -118,15 +114,15 @@ class DoingFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment DoingFragment.
+         * @return A new instance of fragment DoneFragment.
          */
         // TODO: Rename and change types and number of parameters
 
-        const val TASK_STATUS_CODE:Int = 27
+        const val TASK_STATUS_DONE_CODE:Int = 32
 
         @JvmStatic
         fun newInstance(boardID: String, createdBy: String) =
-            DoingFragment().apply {
+            DoneFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, boardID)
                     putString(ARG_PARAM2, createdBy)

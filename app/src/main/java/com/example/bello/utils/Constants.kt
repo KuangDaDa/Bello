@@ -10,6 +10,7 @@ import com.example.bello.activities.MyProfileActivity
 object Constants{
     const val USERS:String = "users"
     const val BOARDS:String = "boards"
+    const val TASKS:String="tasks"
 
 
     const val IMAGE:String="image"
@@ -23,6 +24,28 @@ object Constants{
     const val PICK_IMAGE_REQUEST_CODE=2
 
     const val TASK_LIST = "task_list"
+
+    const val BOARD_DETAIL = "board_detail"
+
+    const val USER_ID = "id"
+
+    const val EMAIL:String="email"
+
+    const val CREATED_BY = "created_by"
+
+    const val BORAD_MEMBER_LIST = "board_member_list"
+    const val TASK_MEMBER_ASSING = "assignedMembers"
+
+    const val SELECT:String = "Select"
+    const val UN_SELECT:String = "UnSelect"
+
+    const val BOARD_DELETED="board_deleted"
+
+    const val TASK_CREATED="task_created"
+
+    const val TASK_CREATED_BY="task_created_by"
+
+    const val STATUS_FRAGMENT="status"
 
 
     fun showImageChooser(activity:Activity){

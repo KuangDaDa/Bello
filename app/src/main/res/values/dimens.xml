@@ -3,10 +3,10 @@
     <dimen name="welcome_font_size">82sp</dimen>
     <dimen name="slogan_font_size">24sp</dimen>
 
-    <dimen name="font_sm">14dp</dimen>
-    <dimen name="font_md">18dp</dimen>
-    <dimen name="font_lg">22dp</dimen>
-    <dimen name="font_xl">28dp</dimen>
+    <dimen name="font_sm">14sp</dimen>
+    <dimen name="font_md">18sp</dimen>
+    <dimen name="font_lg">22sp</dimen>
+    <dimen name="font_xl">28sp</dimen>
 
     <dimen name="height_of_nav_main">200dp</dimen>
     <dimen name="nav_image_size">80dp</dimen>
@@ -27,6 +27,6 @@
     <dimen name="profile_phone_marginTop">20dp</dimen>
     <dimen name="profile_btn_update_marginTop">16dp</dimen>
 
-
+    <dimen name="item_selected_member_image_size">45dp</dimen>
 
 </resources>

@@ -11,5 +11,9 @@
     <color name="primaryvarian">#FF7F00</color>
 
     <color name="secondary">#3B08C3</color>
+    <color name="secondaryVarian">#6721d7</color>
+
+    <color name="onPrimary">#1a1a1a</color>
+    <color name="onPrimaryLight">#949494</color>
 
 </resources>

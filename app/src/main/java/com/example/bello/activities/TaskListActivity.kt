@@ -1,16 +1,22 @@
 package com.example.bello.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.bello.R
+import com.example.bello.adaptors.FragmentPageAdaptor
 import com.example.bello.adaptors.TaskListAdaptor
 import com.example.bello.databinding.ActivityTaskListBinding
 import com.example.bello.firebase.FirestoreClass
 import com.example.bello.model.Board
+import com.example.bello.model.User
 import com.google.android.material.badge.BadgeDrawable
 import com.example.bello.utils.Constants
 import com.google.android.material.tabs.TabLayout
@@ -18,22 +24,33 @@ import com.google.android.material.tabs.TabLayout
 
 class TaskListActivity : AppCompatActivity() {
     private lateinit var adaptor: TaskListAdaptor
-//    private lateinit var tabLayout: TabLayout
-//    private lateinit var viewPager2: ViewPager2
     private lateinit var task_binding: ActivityTaskListBinding
     private lateinit var mBoardDetail:Board
 
+    private lateinit var mBoardDocumentID:String
+
+    private lateinit var mBoardCreatedBy:String
+
+    private lateinit var mAssignedMemberList:ArrayList<User>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var boardDocumentId:String=""
         task_binding = ActivityTaskListBinding.inflate(layoutInflater)
         setContentView(task_binding.root)
 
+
         if(intent.hasExtra(Constants.DOCUMENT_ID)){
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
+            mBoardDocumentID = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
         }
 
-        adaptor = TaskListAdaptor(supportFragmentManager,lifecycle, boardDocumentId)
+        if(intent.hasExtra(Constants.CREATED_BY)){
+            mBoardCreatedBy = intent.getStringExtra(Constants.CREATED_BY).toString()
+        }
+
+        // testingh....
+        Log.d("TTT", "$mBoardCreatedBy si si.")
+
+        adaptor = TaskListAdaptor(supportFragmentManager,lifecycle,mBoardDocumentID,mBoardCreatedBy)
         task_binding.tabLayoutTask.addTab(task_binding.tabLayoutTask.newTab().setText("To Do"))
         task_binding.tabLayoutTask.addTab(task_binding.tabLayoutTask.newTab().setText("Doing"))
         task_binding.tabLayoutTask.addTab(task_binding.tabLayoutTask.newTab().setText("Done"))
@@ -68,19 +85,37 @@ class TaskListActivity : AppCompatActivity() {
 //        badgeDrawable?.isVisible = true
 //        badgeDrawable?.number = 5
 
-        FirestoreClass().getBoardDetails(this, boardDocumentId)
+        FirestoreClass().getBoardDetails(this, mBoardDocumentID)
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == MEMBER_REQUEST_CODE){
+            FirestoreClass().getBoardDetails(this, mBoardDocumentID)
+        }else{
+            Log.e("Cancelled","Cancelled")
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.option_menu,menu)
+        if(FirestoreClass().getCurrentUserId().equals(mBoardCreatedBy)){
+            menuInflater.inflate(R.menu.option_menu,menu)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.delete_board -> Toast.makeText(this,"You clicked deleted action.",Toast.LENGTH_LONG).show()
-            R.id.add_member -> Toast.makeText(this,"You clicked add members action.",Toast.LENGTH_SHORT).show()
+            R.id.delete_board -> {
+               deleteSuccessfully()
+            }
+            R.id.add_member -> {
+                val intent = Intent(this,MemeberActivity::class.java)
+                intent.putExtra(Constants.BOARD_DETAIL,mBoardDetail)
+                startActivityForResult(intent, MEMBER_REQUEST_CODE)
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -99,13 +134,29 @@ class TaskListActivity : AppCompatActivity() {
         }
     }
 
-    fun addTaskListSuccess(){
-        FirestoreClass().getBoardDetails(this, mBoardDetail.documentId)
-    }
+//    fun addTaskListSuccess(){
+//        FirestoreClass().getBoardDetails(this, mBoardDetail.documentId)
+//    }
 
     //  for tasklist title
     fun boardDetail(board: Board?){
         setUpActionBar(board!!.name)
         mBoardDetail = board
+        FirestoreClass().getMemberListDetails(this,board.assignedTo)
+    }
+
+    fun boardMembersDetailsList(list:ArrayList<User>){
+        mAssignedMemberList = list
+    }
+
+    private fun deleteSuccessfully(){
+        FirestoreClass().deleteBoard(this,mBoardDocumentID)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+
+    }
+
+    companion object{
+        const val MEMBER_REQUEST_CODE: Int = 12
     }
 }

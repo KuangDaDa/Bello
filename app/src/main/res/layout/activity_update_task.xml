@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CreateTaskActivity">
+    tools:context=".activities.UpdateTaskActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_create_task"
+            android:id="@+id/edit_toolbar_create_task"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/task_name"
+            android:id="@+id/edit_task_name"
             android:layout_width="match_parent"
             android:layout_height="61dp"
             android:hint="Task name" />
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/task_description"
+            android:id="@+id/edit_task_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
@@ -68,18 +68,18 @@
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/edit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Create"
+        android:layout_marginTop="28dp"
+        android:text="Update"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_member_section" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_add_member_section" />
 
     <TextView
-        android:id="@+id/end_date"
+        android:id="@+id/edit_end_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -88,7 +88,7 @@
         android:text="Set Due Date"
         app:drawableStartCompat="@drawable/baseline_access_time_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_priority" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_task_priority" />
 
     <TextView
         android:id="@+id/task_file"
@@ -101,60 +101,73 @@
         android:visibility="gone"
         app:drawableStartCompat="@drawable/baseline_attachment_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/end_date" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_end_date" />
 
     <LinearLayout
-        android:id="@+id/add_member_section"
+        android:id="@+id/edit_add_member_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_file">
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle_add_task_member_list"
+            android:id="@+id/edit_recycle_add_task_member_list"
             android:layout_width="wrap_content"
             android:layout_height="98dp"
             android:layout_gravity="center"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/add_member_icon"
+            android:id="@+id/edit_add_member_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="4dp"
             android:contentDescription="@string/image_contentDescription"
             android:src="@drawable/baseline_add_circle_24"
+            android:visibility="gone"
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="@dimen/nav_image_circular_border_width"
+            app:layout_constraintTop_toBottomOf="@+id/edit_add_member_section" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/clear_member_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="320dp"
+            android:contentDescription="@string/image_contentDescription"
+            android:src="@drawable/baseline_update_24"
             android:visibility="visible"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="@dimen/nav_image_circular_border_width"
-            app:layout_constraintTop_toBottomOf="@+id/add_member_section"
-            />
+            app:layout_constraintBottom_toBottomOf="@+id/edit_add_member_section"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edit_add_member_section"
+            app:layout_constraintVertical_bias="0.0" />
     </LinearLayout>
 
 
-
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/edit_task_status"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginEnd="44dp"
         android:switchPadding="10dp"
         android:text="Doing"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/end_date"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_end_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/end_date"
+        app:layout_constraintTop_toTopOf="@+id/edit_end_date"
         app:layout_constraintVertical_bias="0.583"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
-        android:id="@+id/task_priority"
+        android:id="@+id/edit_task_priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -164,5 +177,7 @@
         android:text="Set Priority color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

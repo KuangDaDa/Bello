@@ -29,11 +29,27 @@
     <string name="create">Create</string>
     <string name="board_name">Board Name</string>
     <string name="no_board_message">No Board available!</string>
+    <string name="assgiend_no_board_message">You have not been invited to collaborate!</string>
 
     <!--    Task-->
     <string name="task_title">Tasks</string>
     <string name="task_create">Create new task</string>
+    <string name="task_update">Update the task</string>
     <string name="no_task_message">No task available!</string>
+    <string name="no_task_doing_message">You\'ve not started a task!</string>
+    <string name="no_task_done_message">You\'ve not done any task!</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start_task">Start the task</string>
+    <string name="set_status">Set the task priority</string>
+
+
+    <string name="member">Members</string>
+    <string name="assigned_member_list">Assigned Members List</string>
+    <string name="add_member">Add Member</string>
+    <string name="search_member">Search Member</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -35,14 +35,25 @@ class TaskItemAdaptor(private val context: Context, private var list:ArrayList<T
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = list[position]
-//        if(holder is TaskItemViewHolder){
-//
-//        }
-        holder.itemView.findViewById<TextView>(R.id.task_name).setText(model.title)
+        holder.itemView.findViewById<TextView>(R.id.task_name).text = model.title
         val sf = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
-        holder.itemView.findViewById<TextView>(R.id.task_date).setText(sf.format(model.dueDate))
+        holder.itemView.findViewById<TextView>(R.id.task_date).text = sf.format(model.createdDate)
 
-        Log.d("Tssk","si I am in TaskItem!!")
+        when(model.task_priority){
+            "LOW" -> {
+                holder.itemView.findViewById<TextView>(R.id.task_priority_status).setCompoundDrawablesWithIntrinsicBounds(R.drawable.task_priority_circle, 0, 0, 0)
+            }
+            "MEDIUM" ->{
+                holder.itemView.findViewById<TextView>(R.id.task_priority_status).setCompoundDrawablesWithIntrinsicBounds(R.drawable.task_priority_circle_medium, 0, 0, 0)
+            }
+            "HIGH" -> {
+                holder.itemView.findViewById<TextView>(R.id.task_priority_status).setCompoundDrawablesWithIntrinsicBounds(R.drawable.task_priority_circle_high, 0, 0, 0)
+            }
+        }
+
+
+
+        Log.d("Tssk","${model} zi zi.")
 
         holder.itemView.setOnClickListener{
             if(onClickListener!=null){
