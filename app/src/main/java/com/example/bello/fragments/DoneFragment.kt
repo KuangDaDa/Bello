@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bello.R
 import com.example.bello.activities.TaskActivity
@@ -28,6 +29,9 @@ private const val ARG_PARAM2 = "createdBy"
  * Use the [DoneFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
+
 class DoneFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -36,7 +40,20 @@ class DoneFragment : Fragment() {
     lateinit var boardID:String
     lateinit var mCreatedBy:String
 
+
+
     private val binding get() =_binding!!
+
+//    private val launcher = registerForActivityResult(
+//        ActivityResultContracts.StartActivityForResult()
+//    ) { result ->
+//        if (result.resultCode == Activity.RESULT_OK) {
+//            Log.d("RResult","${Activity.RESULT_OK} in Done Fragment.")
+//            FirestoreClass().getTaskList(this,boardID)
+//        } else if (result.resultCode == Activity.RESULT_CANCELED) {
+//            // 处理取消操作
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +102,7 @@ class DoneFragment : Fragment() {
                     intent.putExtra("task_created",model.createdDate)
                     intent.putExtra(Constants.STATUS_FRAGMENT,"done")
                     intent.putExtra(Constants.CREATED_BY,model.createdBy)
-                    startActivityForResult(intent,TASK_STATUS_DONE_CODE)
+                    startActivity(intent)
                 }
 
             })
@@ -95,15 +112,9 @@ class DoneFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("DAAA","$resultCode szzzeex")
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == TASK_STATUS_DONE_CODE){
-
-                FirestoreClass().getTaskList(this,boardID)
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        FirestoreClass().getTaskList(this,boardID)
     }
 
 
@@ -118,7 +129,6 @@ class DoneFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
 
-        const val TASK_STATUS_DONE_CODE:Int = 32
 
         @JvmStatic
         fun newInstance(boardID: String, createdBy: String) =

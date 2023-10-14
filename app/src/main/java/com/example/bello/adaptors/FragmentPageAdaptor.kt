@@ -19,11 +19,6 @@ FragmentStateAdapter(fragmentManager,lifecycle) {
 
     override fun createFragment(position: Int): Fragment {
         return if(position==0){
-//            val bundle:Bundle = Bundle()
-//            bundle.putString("mUsername",mUsername)
-//            Log.d("Bundle","$mUsername si working.")
-//            val creator =
-//            creator.arguments=bundle
             CreatorFragment()
         }else{
             CollabratedFragment()

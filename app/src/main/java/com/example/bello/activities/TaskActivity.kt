@@ -1,6 +1,7 @@
 package com.example.bello.activities
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,17 +9,21 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.bello.R
 import com.example.bello.adaptors.TaskMemberAdapter
 import com.example.bello.databinding.ActivityTaskBinding
 import com.example.bello.firebase.FirestoreClass
+import com.example.bello.fragments.DoingFragment
+import com.example.bello.fragments.DoneFragment
 import com.example.bello.model.SelectedMembers
 import com.example.bello.model.Task
 import com.example.bello.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.Locale
+
 
 class TaskActivity : AppCompatActivity() {
 
@@ -31,6 +36,7 @@ class TaskActivity : AppCompatActivity() {
     private lateinit var createBy:String
 
     private var anyChangeMade: Boolean=false
+    private var anyChangeDone: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +95,22 @@ class TaskActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun DeleteTaskDialog(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_confirm_box)
+        Log.d("AAA","Text in Dialog work")
+        dialog.findViewById<TextView>(R.id.dialog_confirm_title).text= "Delete Task"
+        dialog.findViewById<TextView>(R.id.dialog_confirm_message).text="Are you sure to delete the task."
+        dialog.findViewById<TextView>(R.id.dialog_confirm_btn).text="Delete"
+        dialog.findViewById<TextView>(R.id.dialog_confirm_btn).setOnClickListener {
+            FirestoreClass().deleteTask(this,boardDocumentId,taskCreated)
+        }
+        dialog.findViewById<TextView>(R.id.dialog_mb_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.edit_task->{
@@ -100,7 +122,8 @@ class TaskActivity : AppCompatActivity() {
                 return true
             }
             R.id.delete_task ->{
-                FirestoreClass().deleteTask(this,boardDocumentId,taskCreated)
+//                FirestoreClass().deleteTask(this,boardDocumentId,taskCreated)
+                DeleteTaskDialog()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -182,17 +205,13 @@ class TaskActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         if(anyChangeMade){
             setResult(Activity.RESULT_OK)
         }
-        super.onBackPressed()
-//        if (anyChangeMade) {
-//            val resultIntent = Intent()
-//            resultIntent.putExtra("status", status) // Add extra data if needed
-//            setResult(Activity.RESULT_OK, resultIntent)
-//        }
-//        super.onBackPressed()
     }
+
+
 
     fun updateStatusSuccessfully(){
         setResult(Activity.RESULT_OK)

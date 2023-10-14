@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textColor="@color/secondary"
+                android:textColor="@color/onPrimary"
                 android:textSize="@dimen/font_md"
                 android:textStyle="bold"
                 android:visibility="visible"

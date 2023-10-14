@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import com.example.bello.databinding.ActivitySignInBinding
 import com.example.bello.firebase.FirestoreClass
@@ -51,12 +52,13 @@ class SignInActivity : AppCompatActivity() {
                    FirestoreClass().loadUserData(this)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("Sign in", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        this,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
+//                    Log.w("Sign in", "createUserWithEmail:failure", task.exception)
+//                    Toast.makeText(
+//                        this,
+//                        "Authentication failed.",
+//                        Toast.LENGTH_SHORT,
+//                    ).show()
+                    binding.errorSignUpMsg.visibility = View.VISIBLE
                 }
             }
     }

@@ -1,8 +1,16 @@
 package com.example.bello.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -10,9 +18,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,16 +33,21 @@ import com.bumptech.glide.Glide
 import com.example.bello.R
 import com.example.bello.adaptors.BoardItemsAdaptor
 import com.example.bello.adaptors.FragmentPageAdaptor
+import com.example.bello.fcm.MyFirebaseMessagingService
 import com.example.bello.firebase.FirestoreClass
 import com.example.bello.fragments.CreatorFragment
 import com.example.bello.model.Board
 import com.example.bello.model.User
+import com.example.bello.utils.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.installations.FirebaseInstallations
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 
 class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedListener{
 
@@ -42,7 +58,8 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var adaptor: FragmentPageAdaptor
-//    private var mUsername:String = FirestoreClass().getCurrentUser()
+
+    private lateinit var mSharePreferences:SharedPreferences
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,11 +67,35 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
 
         setContentView(R.layout.activity_main)
 
-        setUpActionBar()
+        Firebase.messaging.isAutoInitEnabled = true
 
+        setUpActionBar()
 
         val nav_view = findViewById<NavigationView>(R.id.nav_view)
         nav_view.setNavigationItemSelectedListener(this)
+
+        mSharePreferences = this.getSharedPreferences(
+            Constants.BELLO_PREFERENCES, Context.MODE_PRIVATE)
+
+        val tokenUpdated = mSharePreferences.getBoolean(Constants.FCM_TOKEN_UPDATED,false)
+
+        if(tokenUpdated){
+            Log.d("ZZEX","token update is true.")
+            FirestoreClass().loadUserData(this,true)
+        }else{
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val tokenResult = task.result
+                    val token = tokenResult
+                    Log.d("Unoti","$token zzzzzz")
+                    if (token != null) {
+                        updateFCMToken(token)
+                    }
+                } else {
+                    Log.d("UNoti","Update notifiction got error.")
+                }
+            }
+        }
 
         FirestoreClass().loadUserData(this)
 
@@ -141,7 +182,7 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetails(user:User){
+    fun updateNavigationUserDetails(user:User, readBoardsList:Boolean){
 //        adaptor.mUsername = user.name
 //        Log.d("USERNAME","In updateNavigation ${adaptor.mUsername}")
 //        adaptor.notifyDataSetChanged()
@@ -179,6 +220,7 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_sign_out ->{
                 FirebaseAuth.getInstance().signOut()
+                mSharePreferences.edit().clear().apply()
                 val intent = Intent(this,SignInActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
@@ -187,5 +229,18 @@ class MainActivity : BaseActivity() ,NavigationView.OnNavigationItemSelectedList
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun tokenUpdateSuccess(){
+        val editor:SharedPreferences.Editor = mSharePreferences.edit()
+        editor.putBoolean(Constants.FCM_TOKEN_UPDATED,true)
+        editor.apply()
+        FirestoreClass().loadUserData(this, true)
+    }
+
+    private fun updateFCMToken(token:String){
+        val userHashMap = HashMap<String,Any>()
+        userHashMap[Constants.FCM_TOKEN] = token
+        FirestoreClass().updateUserProfileData(this,userHashMap)
     }
 }

@@ -65,14 +65,21 @@ class FirestoreClass {
             }
     }
 
-    fun updateUserProfileData(activity:MyProfileActivity,userHashMap:HashMap<String,Any>){
+    fun updateUserProfileData(activity:Activity,userHashMap:HashMap<String,Any>){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .update(userHashMap)
             .addOnSuccessListener {
                 Log.i(activity.javaClass.simpleName,"Update profile successfully.")
                 Toast.makeText(activity,"Update profile successfully.",Toast.LENGTH_SHORT).show()
-                activity.profileUpdateSuccess()
+                when(activity){
+                    is MainActivity ->{
+                        activity.tokenUpdateSuccess()
+                    }
+                    is MyProfileActivity->{
+                        activity.profileUpdateSuccess()
+                    }
+                }
             }.addOnFailureListener{
                 e->
                 Log.e(activity.javaClass.simpleName,"Failure on updating profile.")
@@ -80,7 +87,7 @@ class FirestoreClass {
             }
     }
 
-    fun loadUserData(activity:Activity){
+    fun loadUserData(activity:Activity,readBoardsList: Boolean = false){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
@@ -93,7 +100,7 @@ class FirestoreClass {
                     }
                     is MainActivity->{
                         Log.d("mUsername","Load in LoadUserData")
-                        activity.updateNavigationUserDetails(loggedUser)
+                        activity.updateNavigationUserDetails(loggedUser,true)
                     }
                     is MyProfileActivity->{
                         activity.setUserDataInProfile(loggedUser)
@@ -179,21 +186,21 @@ class FirestoreClass {
             }
     }
 
-    fun createTask(activity:CreateTaskActivity,board:Board){
-        val taskListHashMap= HashMap<String,Any>()
-        taskListHashMap[Constants.TASK_LIST]= board.taskList
-        mFireStore.collection(Constants.BOARDS)
-            .document(board.documentId)
-            .update(taskListHashMap)
-            .addOnSuccessListener {
-                Log.e(activity.javaClass.simpleName,"task create successfully.")
-                Toast.makeText(activity,"create task successfully.",Toast.LENGTH_SHORT).show()
-                activity.getBoardDetail(board)
-            }
-            .addOnFailureListener{
-                Log.e(activity.javaClass.simpleName,"Error with get board lists")
-            }
-    }
+//    fun createTask(activity:CreateTaskActivity,board:Board){
+//        val taskListHashMap= HashMap<String,Any>()
+//        taskListHashMap[Constants.TASK_LIST]= board.taskList
+//        mFireStore.collection(Constants.BOARDS)
+//            .document(board.documentId)
+//            .update(taskListHashMap)
+//            .addOnSuccessListener {
+//                Log.e(activity.javaClass.simpleName,"task create successfully.")
+//                Toast.makeText(activity,"create task successfully.",Toast.LENGTH_SHORT).show()
+//                activity.getBoardDetail(board)
+//            }
+//            .addOnFailureListener{
+//                Log.e(activity.javaClass.simpleName,"Error with get board lists")
+//            }
+//    }
 
     fun createTasks(activity:CreateTaskActivity,board:Board,task: Task){
 //        val taskListHashMap= HashMap<String,Any>()
@@ -453,7 +460,7 @@ class FirestoreClass {
                     val user = document.documents[0].toObject(User::class.java)!!
                     activity.memberDetail(user)
                 }else{
-                    Log.e("AAA","No such email")
+                    activity.showMemberNotFoundDialog()
                 }
             }
     }
@@ -470,7 +477,7 @@ class FirestoreClass {
                 activity.memberAssignedSuccess(user)
             }
             .addOnFailureListener{
-                Log.e("EEE","Failure on assgined memeber.")
+                Log.e("MemXX","Add member to assign Failed.")
             }
     }
 

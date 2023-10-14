@@ -1,14 +1,30 @@
 package com.example.bello.activities
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.RingtoneManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.bello.R
 import com.example.bello.adaptors.FragmentPageAdaptor
@@ -32,6 +48,103 @@ class TaskListActivity : AppCompatActivity() {
     private lateinit var mBoardCreatedBy:String
 
     private lateinit var mAssignedMemberList:ArrayList<User>
+
+    // for test
+
+    // Permission for notification
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private val requestPermissionLauncher = registerForActivityResult(
+//        ActivityResultContracts.RequestPermission(),
+//    ) { isGranted: Boolean ->
+//        if (isGranted) {
+//            // FCM SDK (and your app) can post notifications.
+//            Log.d("FCMXXX","${isGranted}Fucking FCM.")
+//
+//            val intent= if(FirestoreClass().getCurrentUserId().isNotEmpty()){
+//                Intent(this, TaskListActivity::class.java)
+//            }else{
+//                Intent(this, SignInActivity::class.java)
+//            }
+//            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or
+//                    Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//            val pendingIntent = PendingIntent.getActivity(
+//                this,
+//                0, intent,
+//                PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+//            )
+//
+//            val channelId = this.resources.getString(R.string.default_notification_channel_id)
+//
+//            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//
+//            val notificationBuilder = NotificationCompat.Builder(
+//                this, channelId
+//            ).setSmallIcon(R.drawable.ic_stat_ic_notification)
+//                .setContentTitle(title)
+//                .setContentText("Worlding")
+//                .setAutoCancel(true)
+//                .setSound(defaultSoundUri)
+//                .setContentIntent(pendingIntent)
+//
+//            val notificationManager = getSystemService(
+//                Context.NOTIFICATION_SERVICE
+//            ) as NotificationManager
+//
+//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+//                val channel = NotificationChannel(channelId,
+//                    "Channel Project Bello title",
+//                    NotificationManager.IMPORTANCE_DEFAULT
+//                )
+//                notificationManager.createNotificationChannel(channel)
+//            }
+//            notificationManager.notify(0,notificationBuilder.build())
+//        } else {
+//            // TODO: Inform user that that your app will not show notifications.
+//            Log.d("${isGranted} FCMXXX","Fucking in esle FCM.")
+//            askNotificationPermission()
+//        }
+//    }
+//
+//    private fun askNotificationPermission() {
+//        // This is only necessary for API level >= 33 (TIRAMISU)
+//        Log.d("FCMXXX","Fucking FCM.")
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            Log.d("FCMXXX","Fucking FCM.")
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+//                PackageManager.PERMISSION_GRANTED
+//            ) {
+//
+//                Log.d("FCMXXX","Fucking FCM in granted..")
+//            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+//                // TODO: display an educational UI explaining to the user the features that will be enabled
+//                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+//                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+//                //       If the user selects "No thanks," allow the user to continue without notifications.
+//                showEducationalDialog()
+//            } else {
+//                // Directly ask for the permission
+//                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+//            }
+//        }
+//    }
+//
+//    private fun showEducationalDialog() {
+//        val dialogBuilder = AlertDialog.Builder(this)
+//        dialogBuilder.setTitle("Allow Notifications")
+//        dialogBuilder.setMessage("By granting notifications, you'll receive important updates and information.")
+//        dialogBuilder.setPositiveButton("OK") { _, _ ->
+//            // Request the notification permission
+//            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+//        }
+//        dialogBuilder.setNegativeButton("No thanks") { _, _ ->
+//            // User declines notifications, continue without requesting permission
+//            // ... (handle the scenario where the user declines notifications)
+//        }
+//        val dialog = dialogBuilder.create()
+//        dialog.show()
+//    }
+////    // end of permission notification
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,10 +218,26 @@ class TaskListActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun DeleteBoardDialog(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_confirm_box)
+        Log.d("AAA","Text in Dialog work")
+        dialog.findViewById<TextView>(R.id.dialog_confirm_title).text= "Delete Board"
+        dialog.findViewById<TextView>(R.id.dialog_confirm_message).text="Are you sure to delete the board."
+        dialog.findViewById<TextView>(R.id.dialog_confirm_btn).text="Delete"
+        dialog.findViewById<TextView>(R.id.dialog_confirm_btn).setOnClickListener {
+            deleteSuccessfully()
+        }
+        dialog.findViewById<TextView>(R.id.dialog_mb_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.delete_board -> {
-               deleteSuccessfully()
+                DeleteBoardDialog()
             }
             R.id.add_member -> {
                 val intent = Intent(this,MemeberActivity::class.java)
@@ -134,9 +263,6 @@ class TaskListActivity : AppCompatActivity() {
         }
     }
 
-//    fun addTaskListSuccess(){
-//        FirestoreClass().getBoardDetails(this, mBoardDetail.documentId)
-//    }
 
     //  for tasklist title
     fun boardDetail(board: Board?){

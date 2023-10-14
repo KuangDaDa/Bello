@@ -27,8 +27,6 @@
         android:paddingStart="48dp"
         android:paddingEnd="48dp"
         app:boxBackgroundMode="outline"
-        app:helperText="@string/required"
-        app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,8 +49,6 @@
         android:paddingStart="46dp"
         android:paddingEnd="48dp"
         app:boxBackgroundMode="outline"
-        app:helperText="@string/required"
-        app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_layout"
@@ -71,9 +67,10 @@
         android:id="@+id/signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:text="@string/signin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_layout" />
 
@@ -81,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:dividerInsetEnd="16dp"
         app:dividerInsetStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,10 +88,10 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="528dp"
+        android:layout_marginTop="532dp"
         android:text="@string/signin_msg"
         app:layout_constraintEnd_toStartOf="@+id/link_signin"
-        app:layout_constraintHorizontal_bias="0.865"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,9 +103,22 @@
         android:textColor="@color/secondary"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.619"
+        app:layout_constraintHorizontal_bias="0.663"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/error_sign_up_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/error_sign_up"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

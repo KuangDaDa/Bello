@@ -47,6 +47,19 @@ object Constants{
 
     const val STATUS_FRAGMENT="status"
 
+    const val BELLO_PREFERENCES = "BelloPrefs"
+    const val FCM_TOKEN_UPDATED = "fcmTokenUpdated"
+    const val FCM_TOKEN = "fcmToken"
+
+    const val FCM_BASE_URL:String = "https://fcm.googleapis.com/fcm/send"
+    const val FCM_AUTHORIZATION:String = "authorization"
+    const val FCM_KEY:String="key"
+    const val FCM_SERVER_KEY:String="secret_key"
+    const val FCM_KEY_TITLE:String="title"
+    const val FCM_KEY_MESSAGE:String = "message"
+    const val FCM_KEY_DATA:String="data"
+    const val FCM_KEY_TO:String="to"
+
 
     fun showImageChooser(activity:Activity){
         var galleryIntent = Intent(

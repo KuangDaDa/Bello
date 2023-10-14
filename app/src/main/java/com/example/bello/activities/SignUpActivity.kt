@@ -33,6 +33,9 @@ class SignUpActivity : BaseActivity() {
             if(!focused){
                 Log.d("Username","On working..")
                 binding.username.helperText=validUsername()
+            }else
+            {
+                binding.username.helperText=null
             }
         }
     }
@@ -51,6 +54,9 @@ class SignUpActivity : BaseActivity() {
         binding.signupEmailEditText.setOnFocusChangeListener{_,focused->
             if(!focused){
                 binding.email.helperText=validEmail()
+            }else
+            {
+                binding.email.helperText=null
             }
         }
     }
@@ -69,6 +75,8 @@ class SignUpActivity : BaseActivity() {
         binding.signupPasswordEditText.setOnFocusChangeListener{_,focused->
             if(!focused){
                 binding.password.helperText=validPassword()
+            }else{
+                binding.password.helperText=null
             }
         }
     }
@@ -113,17 +121,14 @@ class SignUpActivity : BaseActivity() {
                         setResult(RESULT_OK, intent)
                         val user = User(firebaseUser.uid, username, registerEmail,)
                         FirestoreClass().registerUser(this, user)
+                        finish()
                     } else {
                         Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                        binding.email.helperText="The email has been registered, please use another."
                     }
                 }
-            val intent = Intent()
-            intent.putExtra("email",email)
-            intent.putExtra("password",password)
-            setResult(RESULT_OK,intent)
-            finish()
         }else{
-            Toast.makeText(this,"Something error happen.",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Sign up failed !!",Toast.LENGTH_LONG).show()
         }
     }
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="3dp"
+        android:background="@drawable/shape_dialog_rounded"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_confirm_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/add_member"
+                android:textColor="@color/onPrimary"
+                android:textSize="@dimen/font_md"
+                android:textStyle="bold"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:background="@color/secondary"
+                >
+            </View>
+
+            <TextView
+                android:id="@+id/dialog_confirm_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Message for the dialog"
+                android:textColor="@color/onPrimary"
+                android:textSize="@dimen/font_md"
+                android:textStyle="normal"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/dialog_confirm_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/add"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/font_md"
+                    >
+                </TextView>
+                <TextView
+                    android:id="@+id/dialog_mb_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/onPrimaryLight"
+                    android:textSize="@dimen/font_md"
+                    >
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
