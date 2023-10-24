@@ -6,3 +6,6 @@
 
 ## Requirements
 - The app requires at least android version 13.
+
+## Flowchart
+![system flowchart](./flowchart.jpg)
