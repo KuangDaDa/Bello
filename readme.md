@@ -6,6 +6,7 @@
 
 ## Requirements
 - The app requires at least android version 13.
+- It uses firestore for storing data.
 
 ## Flowchart
 ![system flowchart](./flowchart.jpg)
